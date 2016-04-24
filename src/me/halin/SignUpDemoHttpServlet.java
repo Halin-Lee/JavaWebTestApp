@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class SignUpDemo extends HttpServlet {
+public class SignUpDemoHttpServlet extends HttpServlet {
 
 	/**
 	 * 
@@ -21,7 +21,7 @@ public class SignUpDemo extends HttpServlet {
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
 		super.init();
-		// ´ÓservletConfigÖĞ¶ÁÈ¡³õÊ¼»¯²ÎÊı£¬´Ë²ÎÊıÔÚweb¡£xml³õÊ¼»¯
+		// ä»servletConfigä¸­è¯»å–åˆå§‹åŒ–å‚æ•°ï¼Œæ­¤å‚æ•°åœ¨webã€‚xmlåˆå§‹åŒ–
 		prefix = getServletConfig().getInitParameter("SIGN_UP_DEMO_PREFIX");
 	}
 
@@ -29,9 +29,9 @@ public class SignUpDemo extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		// Ã»ÓĞÌá½»UserName£¬ÖØ¶¨Ïòµ½Ìá½»Ò³Ãæ
-		// resp.sendRedirect("SignUp.html"); //ÖØ¶¨Ïò
-		 req.getRequestDispatcher("SignUp.html").forward(req, resp) ; //×°·¢µ½SignUp¡£html
+		// æ²¡æœ‰æäº¤UserNameï¼Œé‡å®šå‘åˆ°æäº¤é¡µé¢
+		// resp.sendRedirect("SignUp.html"); //é‡å®šå‘
+		 req.getRequestDispatcher("SignUp.html").forward(req, resp) ; //è£…å‘åˆ°SignUpã€‚html
 
 	}
 
@@ -39,16 +39,16 @@ public class SignUpDemo extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		// servlet superµÄ·½·¨²»ÄÜµ÷ÓÃ£¬·ñÔò»áµ±¸Ãservlet²»´¦Àí¸ÃÀàĞÍ·½·¨
+		// servlet superçš„æ–¹æ³•ä¸èƒ½è°ƒç”¨ï¼Œå¦åˆ™ä¼šå½“è¯¥servletä¸å¤„ç†è¯¥ç±»å‹æ–¹æ³•
 		// super.doGet(req, resp);
 
 		req.setCharacterEncoding("UTF-8");
 		String userName = req.getParameter("userName");
-		resp.setContentType("text/html;charset=utf-8"); // ×¢£¬ÉèÖÃchasesetÒªÔÚgetWritterÖ®Ç°
+		resp.setContentType("text/html;charset=utf-8"); // æ³¨ï¼Œè®¾ç½®chasesetè¦åœ¨getWritterä¹‹å‰
 
 		if (userName == null || userName.isEmpty()) {
-			// Ã»ÓĞÌá½»UserName£¬·µ»Ø´íÎó
-			resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, "ÓÃ»§ÃûÎª¿Õ");
+			// æ²¡æœ‰æäº¤UserNameï¼Œè¿”å›é”™è¯¯
+			resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, "ç”¨æˆ·åä¸ºç©º");
 			return;
 		}
 

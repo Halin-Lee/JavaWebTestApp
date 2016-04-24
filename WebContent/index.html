@@ -2,13 +2,42 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>JavaWebTestApp</title>
 </head>
 <body>
-	<h1>Hello World!</h1>
+	<h1>
+		<a href="HelloWorld">Hello World!</a>
+	</h1>
 	<br />
+
 	<p>
-		多语言支持测试 <br /> <a href="cn/multilanguage">中文</a> <br /> <a href="en/multilanguage">英文</a>
+		<strong>页面访问计数 </strong><br /> <a href="pagevisitcounter">页面访问计数</a>
+	</p>
+
+
+	<p>
+		<strong>请求转发 </strong><br />
+		 <!-- include后可以再写入内容，forward不可以 -->
+		 <a href="requestdispatcher">include</a><br />
+		<a href="requestdispatcher?method=forward">forward</a>
+	</p>
+
+	<p>
+		<strong>服务不可用 </strong><br />
+		 <a href="ServiceUnavailable?delay=0">正常可用</a><br />
+		 <a href="ServiceUnavailable?delay=10">10s不可用</a><br />
+		<a href="ServiceUnavailable">永久不可用</a>
+	</p>
+	
+	<p>
+		<strong>模拟登陆 </strong><br /> <a href="SignUp.html">模拟登陆</a>
+	</p>
+
+
+
+	<p>
+		<strong>多语言支持测试 </strong><br /> <a href="cn/multilanguage">中文</a> <br />
+		<a href="en/multilanguage">英文</a>
 	</p>
 
 </body>

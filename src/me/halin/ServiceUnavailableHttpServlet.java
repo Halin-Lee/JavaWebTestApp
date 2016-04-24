@@ -1,6 +1,7 @@
 package me.halin;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.UnavailableException;
@@ -19,13 +20,15 @@ public class ServiceUnavailableHttpServlet extends HttpServlet {
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
 		super.init();
-		System.out.println("·şÎñ¿ªÆô");
+		System.out.println("æœåŠ¡å¼€å¯");
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
+		resp.setContentType("text/html;charset=utf-8");
+		
 		String delayStr = req.getParameter("delay");
 		Integer delay = null;
 		try {
@@ -34,11 +37,14 @@ public class ServiceUnavailableHttpServlet extends HttpServlet {
 		} catch (NumberFormatException e) {
 			// TODO: handle exception
 		}
-		System.out.println(delayStr);
-		if (delay == null || delay <= 0) {
-			throw new UnavailableException("·şÎñÓÀ¾Ã²»¿ÉÓÃ");
-		} else {
-			throw new UnavailableException("·şÎñÔİÊ±²»¿ÉÓÃ", delay);
+		if (delay == null || delay < 0) {
+			throw new UnavailableException("æœåŠ¡æ°¸ä¹…ä¸å¯ç”¨");
+		} else if(delay == 0){
+			PrintWriter wirter = resp.getWriter();
+			wirter.print("æœåŠ¡æ­£å¸¸");
+			wirter.close();
+		}else {
+			throw new UnavailableException("æœåŠ¡æš‚æ—¶ä¸å¯ç”¨", delay);
 		}
 
 	}
@@ -46,7 +52,7 @@ public class ServiceUnavailableHttpServlet extends HttpServlet {
 	@Override
 	public void destroy() {
 		super.destroy();
-		System.out.println("·şÎñÍ£Ö¹");
+		System.out.println("æœåŠ¡åœæ­¢");
 
 	}
 

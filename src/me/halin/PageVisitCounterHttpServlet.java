@@ -33,7 +33,7 @@ public class PageVisitCounterHttpServlet extends HttpServlet {
 
 		resp.setContentType("text/html;charset=utf-8");
 		PrintWriter writer = resp.getWriter();
-		writer.print("当前页面总访问量:" + counter);
+		writer.print("褰撳墠椤甸潰鎬昏闂噺:" + counter);
 		writer.close();
 	}
 }

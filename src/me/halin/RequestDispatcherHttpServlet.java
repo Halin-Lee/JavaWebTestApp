@@ -21,30 +21,34 @@ public class RequestDispatcherHttpServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		resp.setContentType("text/html;charset=utf-8");
-		PrintWriter writer = resp.getWriter();
+//		resp.setCharacterEncoding("UTF-8");
 
 		// RequestDispatcher dispatcher =
 		// getServletContext().getRequestDispatcher("/RequestDispatcherSubFolder/SubFolderFile.html");
-		// //Ê¹ÓÃ/Ïàµ±ÓÚ¸ùÂ·¾¶
+		// //ä½¿ç”¨/ç›¸å½“äºæ ¹è·¯å¾„
 		// RequestDispatcher dispatcher =
 		// req.getRequestDispatcher("RequestDispatcherSubFolder/SubFolderFile.html");
-		// //¿ÉÒÔ²»Ê¹ÓÃ/£¬Ïàµ±ÓÚµ±Ç°Â·¾¶
+		// //å¯ä»¥ä¸ä½¿ç”¨/ï¼Œç›¸å½“äºå½“å‰è·¯å¾„
 
 
-		RequestDispatcher dispatcher = getServletContext().getContext("/Test")
+		RequestDispatcher dispatcher = getServletContext().getContext("/JavaWebTestApp")
 				.getRequestDispatcher("/index.html");
 		String method = req.getParameter("method");
+		
+
+//		getWriterä¼šå¯¼è‡´includeä¹±ç ï¼ˆä¸utf-8æœ‰å…³ï¼‰ï¼Œæš‚æ—¶æœªèƒ½è§£å†³
 		if (method != null && method.equalsIgnoreCase("forward")) {
 			dispatcher.forward(req, resp);
-			writer.println("ÎÒÊ²Ã´¶¼²»ÄÜĞ´ÁË");
+			PrintWriter writer = resp.getWriter();
+			writer.println("æˆ‘ä»€ä¹ˆéƒ½ä¸èƒ½å†™äº†");
 		} else {
-
-			dispatcher.include(req, resp);
-			writer.println("ÎÒ»¹¿ÉÒÔÔÙĞ´µãÊ²Ã´");
-
+			resp.setCharacterEncoding("UTF-8");
+			PrintWriter writer = resp.getWriter();
+			dispatcher.include(req, resp);		
+			writer.println("æˆ‘è¿˜å¯ä»¥å†å†™ç‚¹ä»€ä¹ˆ");
+			writer.close();
 		}
 
-		writer.close();
 	}
 
 }
