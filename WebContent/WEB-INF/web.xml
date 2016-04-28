@@ -77,4 +77,36 @@
     <servlet-name>MultiLanguageSupport_EN</servlet-name>
     <url-pattern>/en/multilanguage</url-pattern>
   </servlet-mapping>
+  <servlet>
+  	<servlet-name>JDBCDemo</servlet-name>
+  	<servlet-class>me.halin.JDBCDemoHttpServlet</servlet-class>
+  	<init-param>
+  		<param-name>url</param-name>
+  		<param-value>jdbc:mysql://localhost:3306</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>user</param-name>
+  		<param-value>root</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>password</param-name>
+  		<param-value>123456</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>driverClass</param-name>
+  		<param-value>com.mysql.jdbc.Driver</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>tableName</param-name>
+  		<param-value>tempTable</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>databaseName</param-name>
+  		<param-value>tempDatabase</param-value>
+  	</init-param>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>JDBCDemo</servlet-name>
+  	<url-pattern>/JDBCDemo</url-pattern>
+  </servlet-mapping>
 </web-app>
