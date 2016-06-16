@@ -1,37 +1,56 @@
-package me.halin;
+package me.halin.jdbcstudy;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Writer;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
- * Servlet implementation class JDBCDemoHttpServlet
+ * Servlet implementation class JDBCCallableStatementHttpServlet
  */
-@WebServlet(description = "JDBC测试", urlPatterns = { "/JDBCDemoHttpServlet" })
-public class JDBCDemoHttpServlet extends HttpServlet {
+@WebServlet(urlPatterns = { "/JDBC/JDBCCallableStatementHttpServlet" }, initParams = {
+		@WebInitParam(name = "url", value = "jdbc:mysql://localhost:3306"),
+		@WebInitParam(name = "user", value = "root"),
+		@WebInitParam(name = "password", value = "123456"),
+		@WebInitParam(name = "tableName", value = "tempTable"),
+		@WebInitParam(name = "databaseName", value = "tempDatabase"),
+		@WebInitParam(name = "driverClass", value = "com.mysql.jdbc.Driver") })
+public class JDBCCallableStatementHttpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private String dbUrl;
 	private String userName;
 	private String password;
 	private String tableName;
-
 	private String databaseName;
 
-	@Override
-	public void init() throws ServletException {
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public JDBCCallableStatementHttpServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-		super.init();
+	/**
+	 * @see Servlet#init(ServletConfig)
+	 */
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+
+		// 驱动配置主要将mysql-connector-java放入tomcat的lib文件夹
 		String driverClass = getInitParameter("driverClass");
 		dbUrl = getInitParameter("url");
 		userName = getInitParameter("user");
@@ -47,10 +66,13 @@ public class JDBCDemoHttpServlet extends HttpServlet {
 			System.out.println("驱动加载失败  error:" + e);
 		}
 
+		Connection conn = null;
+		Statement statement = null;
 		try {
-			Connection conn = DriverManager.getConnection(dbUrl, userName,
-					password);
-			java.sql.Statement statement = conn.createStatement();
+
+			// 建表
+			conn = DriverManager.getConnection(dbUrl, userName, password);
+			statement = conn.createStatement();
 			statement.executeUpdate("create database if not exists "
 					+ databaseName);
 			statement.executeUpdate("use tempDatabase");
@@ -63,15 +85,23 @@ public class JDBCDemoHttpServlet extends HttpServlet {
 
 		} catch (SQLException e) {
 			System.out.println("数据库加载失败" + e);
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
-	}
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public JDBCDemoHttpServlet() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -80,6 +110,7 @@ public class JDBCDemoHttpServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=utf-8"); // 注，设置chaseset要在getWritter之前
@@ -100,61 +131,40 @@ public class JDBCDemoHttpServlet extends HttpServlet {
 			writer.close();
 			return;
 		}
+
+		Connection conn = null;
+		CallableStatement statement = null;
 		try {
-			Connection conn = DriverManager.getConnection(dbUrl, userName,
-					password);
-			java.sql.Statement statement = conn.createStatement();
-			statement.executeUpdate("use tempDatabase");
-
-			switch (method) {
-			case "set": {
-				String insertStr = String.format(
-						"replace INTO %s VALUES ('%d', '%s')", tableName, id,
-						title);
-				writer.println("执行语句 " + insertStr + "\r\n");
-				statement.addBatch(insertStr);
-				statement.executeBatch();
-				String output = String.format("插入数据成功 id：%d title:%s", id,
-						title);
-				writer.println(output);
-			}
-				break;
-
-			case "delete": {
-
-				String deleteString = String.format(
-						"delete from %s where id=%d", tableName, id);
-
-				statement.addBatch(deleteString);
-				statement.executeBatch();
-				String output = String.format("删除成功 id：%d title:%s", id,
-						title);
-				writer.println(output);
-			}
-				break;
-
-			case "get":
-			default: {
-				String queryString = "select * from " + tableName
-						+ " where id=" + id;
-				writer.write("执行语句 " + queryString + "\r\n");
-				ResultSet resultSet = statement.executeQuery(queryString);
-
-				while (resultSet.next()) {
-					title = resultSet.getString("title");
-					writer.write("查到数据：id" + id + ",title:" + title + "\r\n");
-				}
-
-				if (!resultSet.first()) {
-					writer.write("找不到数据" + "\r\n");
-				}
-			}
-				break;
-			}
-
+			conn = DriverManager.getConnection(dbUrl, userName, password);
+			// f_getsal为一个函数，call为调用该函数
+			statement = conn.prepareCall("? = call f_getsal(?)");
+			// 设置返回类型为int
+			statement.registerOutParameter(1, java.sql.Types.INTEGER);
+			// 设置参数
+			statement.setInt(2, 7369);
+			// 执行
+			statement.execute();
+			// 获得结果
+			int result = statement.getInt(1);
+			
 		} catch (SQLException e) {
 			writer.write("数据库操作失败" + e);
 			System.out.print("数据库操作失败" + e);
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		writer.close();
 	}
