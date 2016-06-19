@@ -108,8 +108,8 @@
 
 	<!-- JDBC使用入门 -->
 	<servlet>
-		<servlet-name>JDBCDemo</servlet-name>
-		<servlet-class>me.halin.jdbcstudy.JDBCDemoHttpServlet</servlet-class>
+		<servlet-name>JDBCStatementDemo</servlet-name>
+		<servlet-class>me.halin.jdbcstudy.JDBCStatementHttpServlet</servlet-class>
 		<init-param>
 			<param-name>url</param-name>
 			<param-value>jdbc:mysql://localhost:3306</param-value>
@@ -136,8 +136,8 @@
 		</init-param>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>JDBCDemo</servlet-name>
-		<url-pattern>/JDBC/JDBCDemo</url-pattern>
+		<servlet-name>JDBCStatementDemo</servlet-name>
+		<url-pattern>/JDBC/JDBCStatementDemo</url-pattern>
 	</servlet-mapping>
 
 

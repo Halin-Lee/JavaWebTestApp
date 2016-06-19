@@ -32,14 +32,14 @@ import javax.servlet.http.HttpServletResponse;
  *            example：http://localhost:8000/JavaWebTestApp/JDBC/
  *            JDBCPrepareStatementDemo?method=set&id=1&title=123
  */
-@WebServlet(description = "JDBC测试", urlPatterns = { "/JDBCDemoHttpServlet" }, initParams = {
+@WebServlet(description = "JDBC测试", urlPatterns = { "/JDBCStatementHttpServlet" }, initParams = {
 		@WebInitParam(name = "url", value = "jdbc:mysql://localhost:3306", description = "数据库连接"),
 		@WebInitParam(name = "user", value = "root"),
 		@WebInitParam(name = "password", value = "123456"),
 		@WebInitParam(name = "tableName", value = "tempTable"),
 		@WebInitParam(name = "databaseName", value = "tempDatabase"),
 		@WebInitParam(name = "driverClass", value = "com.mysql.jdbc.Driver") })
-public class JDBCDemoHttpServlet extends HttpServlet {
+public class JDBCStatementHttpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private String dbUrl;

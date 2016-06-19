@@ -21,7 +21,7 @@ import javax.swing.text.html.HTMLDocument.HTMLReader.ParagraphAction;
 /**
  * Servlet implementation class JDBCPrepareStatmentHttpServlet
  */
-@WebServlet(urlPatterns = { "/JDBC/JDBCPrepareStatmentHttpServlet" }, initParams = {
+@WebServlet(urlPatterns = { "/JDBC/JDBCPrepareStatementHttpServlet" }, initParams = {
 		@WebInitParam(name = "url", value = "jdbc:mysql://localhost:3306"),
 		@WebInitParam(name = "user", value = "root"),
 		@WebInitParam(name = "password", value = "123456"),
@@ -158,7 +158,8 @@ public class JDBCPrepareStatementHttpServlet extends HttpServlet {
 			case "set": {
 				setPreparedStatement.setInt(1, id);
 				setPreparedStatement.setString(2, title);
-				setPreparedStatement.executeBatch();
+				// TODO:了解executebatch和executeupdate等等有什么区别
+				setPreparedStatement.executeUpdate();
 				String output = String.format("插入数据成功 id：%d title:%s", id,
 						title);
 				writer.println(output);
@@ -168,7 +169,7 @@ public class JDBCPrepareStatementHttpServlet extends HttpServlet {
 			case "delete": {
 
 				deletePreparedStatement.setInt(1, id);
-				deletePreparedStatement.executeBatch();
+				deletePreparedStatement.executeUpdate();
 				String output = String.format("删除成功 id：%d title:%s", id, title);
 				writer.println(output);
 			}

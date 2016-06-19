@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JDBC Edit</title>
+
+
+<script >
+
+
+</script>
+
+</head>
+<body>
+	<form action="JDBCTransactionHttpServlet" method="post">
+	隔离级别:<br>
+	<input type="radio" name="transactionType" value="none" >none<br>
+	 <input type="radio" name="transactionType" value="readuncommitted"   checked="checked" >readuncommitted<br>
+     <input type="radio" name="transactionType" value="readcommitted" >readcommitted<br>
+  	 <input type="radio" name="transactionType" value="repeatable" >repeatable<br>
+  	 <input type="radio" name="transactionType" value="serializable" >serializable<br><br>
+	 检查死锁:<input type="checkbox" name="checkDeadLock"><br>
+	<button type="submit">提交</button>
+
+	</form>
+</body>
+</html>
