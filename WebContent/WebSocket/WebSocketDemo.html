@@ -32,8 +32,18 @@
                    writeResponse("WebSocket is already opened.");
                     return;
                 }
+                
+                var loc = window.location, webSocketUri;
+                if (loc.protocol === "https:") {
+                	webSocketUri = "wss:";
+                } else {
+                	webSocketUri = "ws:";
+                }
+                webSocketUri += "//" + loc.host;
+                webSocketUri += "/JavaWebTestApp/WebSocket/DemoWebSocketServer";
+                
                 // Create a new instance of the websocket
-                webSocket = new WebSocket("ws://localhost:8000/JavaWebTestApp/WebSocket/DemoWebSocketServer");
+                webSocket = new WebSocket(webSocketUri);
                  
                 /**
                  * Binds functions to the listeners for the websocket.
